@@ -1,0 +1,8 @@
+core:
+  threads: 1
+  log:
+    level: info
+    path: ./logs/aliyunbot
+    maxsize: 100
+    maxage: 7
+    compress: true

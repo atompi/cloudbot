@@ -1,0 +1,3 @@
+/examples/*
+!/examples/aliyunbot.yaml.example
+/data/*
