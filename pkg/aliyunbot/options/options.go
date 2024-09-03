@@ -22,8 +22,22 @@ type CoreOptions struct {
 	Log     LogOptions `yaml:"log"`
 }
 
+type AliyunOptions struct {
+	AccessKeyId     string `yaml:"access_key_id"`
+	AccessKeySecret string `yaml:"access_key_secret"`
+	RegionId        string `yaml:"region_id"`
+	Endpoint        string `yaml:"endpoint"`
+}
+
+type TaskOptions struct {
+	Name      string        `yaml:"name"`
+	Aliyun    AliyunOptions `yaml:"aliyun"`
+	InputFile string        `yaml:"input_file"`
+}
+
 type Options struct {
-	Core CoreOptions `yaml:"core"`
+	Core  CoreOptions   `yaml:"core"`
+	Tasks []TaskOptions `yaml:"tasks"`
 }
 
 func NewOptions() (opts Options) {

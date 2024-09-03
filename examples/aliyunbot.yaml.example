@@ -1,8 +1,17 @@
 core:
-  threads: 1
+  threads: 2
   log:
     level: info
     path: ./logs/aliyunbot
     maxsize: 100
     maxage: 7
     compress: true
+
+tasks:
+  - name: aliyun_revoke_security_group
+    aliyun:
+      access_key_id: your_access_key_id
+      access_key_secret: your_access_key_secret
+      region_id: cn-shenzhen
+      endpoint: ecs.cn-shenzhen.aliyuncs.com
+    input_file: ./data/aliyun_revoke_security_group.csv
