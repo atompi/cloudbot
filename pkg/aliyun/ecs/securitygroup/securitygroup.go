@@ -5,7 +5,7 @@ import (
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	openapiutil "github.com/alibabacloud-go/openapi-util/service"
-	util "github.com/alibabacloud-go/tea-utils/v2/service"
+	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
 	"github.com/atompi/aliyunbot/pkg/utils"
@@ -47,7 +47,7 @@ func RevokeSecurityGroup(ch chan int, wg *sync.WaitGroup, a options.AliyunOption
 	}
 
 	params := createApiInfo()
-	runtime := &util.RuntimeOptions{}
+	runtime := &teautil.RuntimeOptions{}
 	request := &openapi.OpenApiRequest{
 		Query: openapiutil.Query(queries),
 	}

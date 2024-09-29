@@ -1,5 +1,4 @@
 core:
-  threads: 2
   log:
     level: info
     path: ./logs/aliyunbot
@@ -9,9 +8,28 @@ core:
 
 tasks:
   - name: aliyun_revoke_security_group
+    enabled: false
+    type: RevokeSecurityGroup
+    threads: 5
     aliyun:
       access_key_id: your_access_key_id
       access_key_secret: your_access_key_secret
       region_id: cn-shenzhen
       endpoint: ecs.cn-shenzhen.aliyuncs.com
-    input_file: ./data/aliyun_revoke_security_group.csv
+    input:
+      type: csv
+      path: ./data
+      target: rules.csv
+  - name: aliyun_fetch_slb
+    enabled: true
+    type: DescribeLoadBalancers
+    threads: 5
+    aliyun:
+      access_key_id: your_access_key_id
+      access_key_secret: your_access_key_secret
+      region_id: cn-shenzhen
+      endpoint: slb.cn-shenzhen.aliyuncs.com
+    output:
+      type: mysql
+      path: root:123456@tcp(127.0.0.1:3306)/aliyun?charset=utf8mb4
+      target: slb

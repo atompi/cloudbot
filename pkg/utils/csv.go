@@ -3,6 +3,8 @@ package utils
 import (
 	"encoding/csv"
 	"io"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"golang.org/x/text/encoding"
@@ -34,4 +36,28 @@ func DataToMap(data *[][]string) (records *[]map[string]string, err error) {
 		}
 	}
 	return
+}
+
+func CreateCSVFile(filePath string) (f *os.File, err error) {
+	err = os.MkdirAll(filepath.Dir(filePath), 0o755)
+	if err != nil {
+		return
+	}
+	return os.Create(filePath)
+}
+
+func WriteCSVFile(f *os.File, data *[][]string) error {
+	f.WriteString(UTF8BOM)
+	w := csv.NewWriter(f)
+	for _, v := range *data {
+		err := w.Write(v)
+		if err != nil {
+			return err
+		}
+	}
+	w.Flush()
+
+	defer f.Close()
+
+	return nil
 }

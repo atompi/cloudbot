@@ -18,8 +18,7 @@ type LogOptions struct {
 }
 
 type CoreOptions struct {
-	Threads int        `yaml:"threads"`
-	Log     LogOptions `yaml:"log"`
+	Log LogOptions `yaml:"log"`
 }
 
 type AliyunOptions struct {
@@ -29,10 +28,20 @@ type AliyunOptions struct {
 	Endpoint        string `yaml:"endpoint"`
 }
 
+type InputOutputOptions struct {
+	Type   string `yaml:"type"`
+	Path   string `yaml:"path"`
+	Target string `yaml:"target"`
+}
+
 type TaskOptions struct {
-	Name      string        `yaml:"name"`
-	Aliyun    AliyunOptions `yaml:"aliyun"`
-	InputFile string        `yaml:"input_file"`
+	Name    string             `yaml:"name"`
+	Enabled bool               `yaml:"enabled"`
+	Type    string             `yaml:"type"`
+	Threads int                `yaml:"threads"`
+	Aliyun  AliyunOptions      `yaml:"aliyun"`
+	Input   InputOutputOptions `yaml:"input"`
+	Output  InputOutputOptions `yaml:"output"`
 }
 
 type Options struct {
