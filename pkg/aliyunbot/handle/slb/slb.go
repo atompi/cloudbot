@@ -1,4 +1,4 @@
-package handle
+package slb
 
 import (
 	"github.com/alibabacloud-go/tea/tea"
@@ -6,7 +6,7 @@ import (
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
 )
 
-func fetchSLBHandler(t options.TaskOptions) error {
+func FetchSLBHandler(t options.TaskOptions) error {
 	q := map[string]interface{}{}
 	q["RegionId"] = tea.String(t.Aliyun.RegionId)
 

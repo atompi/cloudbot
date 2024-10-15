@@ -1,6 +1,9 @@
 package handle
 
 import (
+	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/ecs"
+	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/rocketmq"
+	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/slb"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
 	"go.uber.org/zap"
 )
@@ -18,9 +21,11 @@ func Handle(opts options.Options) {
 
 		switch t.Type {
 		case "RevokeSecurityGroup":
-			err = revokeSecurityGroupHandler(t)
+			err = ecs.RevokeSecurityGroupHandler(t)
 		case "DescribeLoadBalancers":
-			err = fetchSLBHandler(t)
+			err = slb.FetchSLBHandler(t)
+		case "RocketMQCreateTopic":
+			err = rocketmq.CreateTopicHandler(t)
 		default:
 			zap.S().Warnf("unknown task type: %v", t.Type)
 		}

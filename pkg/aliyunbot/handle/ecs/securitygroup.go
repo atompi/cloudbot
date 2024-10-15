@@ -1,4 +1,4 @@
-package handle
+package ecs
 
 import (
 	"sync"
@@ -10,7 +10,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func revokeSecurityGroupHandler(t options.TaskOptions) error {
+func RevokeSecurityGroupHandler(t options.TaskOptions) error {
 	res, err := dataio.InputCSV(t.Input)
 	if err != nil {
 		zap.S().Errorf("input error: %v", err)
@@ -28,7 +28,7 @@ func revokeSecurityGroupHandler(t options.TaskOptions) error {
 
 		wg.Add(1)
 		ch <- 1
-		go securitygroup.RevokeSecurityGroup(ch, &wg, t.Aliyun, q)
+		go securitygroup.RevokeSecurityGroup(ch, &wg, t, q)
 	}
 
 	wg.Wait()
