@@ -29,6 +29,8 @@ func Handle(opts options.Options) {
 			err = rocketmq.CreateTopicHandler(t)
 		case "RocketMQCreateConsumerGroup":
 			err = rocketmq.CreateConsumerGroupHandler(t)
+		case "RocketMQUpdateConsumerGroup":
+			err = rocketmq.UpdateConsumerGroupHandler(t)
 		case "OnsCreateTopic":
 			err = ons.CreateTopicHandler(t)
 		case "OnsCreateConsumerGroup":

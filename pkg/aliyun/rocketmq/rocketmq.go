@@ -1,6 +1,7 @@
 package rocketmq
 
 import (
+	"strconv"
 	"sync"
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
@@ -22,12 +23,12 @@ func createApiClient(opts options.AliyunOptions) (*openapi.Client, error) {
 	return openapi.NewClient(config)
 }
 
-func createApiInfo(action string, pathName string) *openapi.Params {
+func createApiInfo(action string, pathName string, method string) *openapi.Params {
 	return &openapi.Params{
 		Action:      tea.String(action),
 		Version:     tea.String("2022-08-01"),
 		Protocol:    tea.String("HTTPS"),
-		Method:      tea.String("POST"),
+		Method:      tea.String(method),
 		AuthType:    tea.String("AK"),
 		Style:       tea.String("ROA"),
 		Pathname:    tea.String(pathName),
@@ -36,14 +37,14 @@ func createApiInfo(action string, pathName string) *openapi.Params {
 	}
 }
 
-func callApi(t options.TaskOptions, action string, pathName string, body map[string]interface{}) error {
+func callApi(t options.TaskOptions, action string, pathName string, method string, body map[string]interface{}) error {
 	c, err := createApiClient(t.Aliyun)
 	if err != nil {
 		zap.S().Errorf("create api client failed: %v", err)
 		return err
 	}
 
-	params := createApiInfo(action, pathName)
+	params := createApiInfo(action, pathName, method)
 
 	runtime := &teautil.RuntimeOptions{}
 	request := &openapi.OpenApiRequest{
@@ -64,28 +65,69 @@ func CreateTopic(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanc
 
 	action := "CreateTopic"
 	pathName := "/instances/" + instanceId + "/topics/" + topicName
+	method := "POST"
 	body := map[string]interface{}{
 		"messageType": messageType,
 		"remark":      remark,
 	}
 
-	err := callApi(t, action, pathName, body)
+	err := callApi(t, action, pathName, method, body)
 	if err != nil {
 		zap.S().Errorf("call api failed: %v", err)
 		return
 	}
 }
 
-func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, remark string) {
+func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, remark string) {
 	defer func() { wg.Done(); <-ch }()
 
-	action := "CreateConsumerGroup"
+	mrt, err := strconv.Atoi(maxRetryTimes)
+	if err != nil {
+		zap.S().Warnf("convert maxRetryTimes failed: %v, use default: 16", err)
+		mrt = 16
+	}
+
+	action := "UpdateConsumerGroup"
 	pathName := "/instances/" + instanceId + "/consumerGroups/" + consumerGroupId
+	method := "POST"
 	body := map[string]interface{}{
+		"deliveryOrderType": deliveryOrderType,
+		"consumeRetryPolicy": map[string]interface{}{
+			"retryPolicy":   consumeRetryPolicy,
+			"maxRetryTimes": mrt,
+		},
 		"remark": remark,
 	}
 
-	err := callApi(t, action, pathName, body)
+	err = callApi(t, action, pathName, method, body)
+	if err != nil {
+		zap.S().Errorf("call api failed: %v", err)
+		return
+	}
+}
+
+func UpdateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, remark string) {
+	defer func() { wg.Done(); <-ch }()
+
+	mrt, err := strconv.Atoi(maxRetryTimes)
+	if err != nil {
+		zap.S().Warnf("convert maxRetryTimes failed: %v, use default: 16", err)
+		mrt = 16
+	}
+
+	action := "UpdateConsumerGroup"
+	pathName := "/instances/" + instanceId + "/consumerGroups/" + consumerGroupId
+	method := "PATCH"
+	body := map[string]interface{}{
+		"deliveryOrderType": deliveryOrderType,
+		"consumeRetryPolicy": map[string]interface{}{
+			"retryPolicy":   consumeRetryPolicy,
+			"maxRetryTimes": mrt,
+		},
+		"remark": remark,
+	}
+
+	err = callApi(t, action, pathName, method, body)
 	if err != nil {
 		zap.S().Errorf("call api failed: %v", err)
 		return

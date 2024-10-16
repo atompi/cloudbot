@@ -55,7 +55,33 @@ func CreateConsumerGroupHandler(t options.TaskOptions) error {
 	for _, row := range *data {
 		wg.Add(1)
 		ch <- 1
-		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["remark"])
+		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["remark"])
+	}
+
+	wg.Wait()
+	return nil
+}
+
+func UpdateConsumerGroupHandler(t options.TaskOptions) error {
+	res, err := dataio.InputCSV(t.Input)
+	if err != nil {
+		zap.S().Errorf("input error: %v", err)
+		return err
+	}
+
+	data, err := utils.DataToMap(&res)
+	if err != nil {
+		zap.S().Errorf("data convert error: %v", err)
+		return err
+	}
+
+	wg := sync.WaitGroup{}
+	ch := make(chan int, t.Threads)
+
+	for _, row := range *data {
+		wg.Add(1)
+		ch <- 1
+		go rocketmq.UpdateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["remark"])
 	}
 
 	wg.Wait()
