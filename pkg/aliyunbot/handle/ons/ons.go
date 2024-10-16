@@ -1,9 +1,9 @@
-package rocketmq
+package ons
 
 import (
 	"sync"
 
-	"github.com/atompi/aliyunbot/pkg/aliyun/rocketmq"
+	"github.com/atompi/aliyunbot/pkg/aliyun/ons"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
 	"github.com/atompi/aliyunbot/pkg/dataio"
 	"github.com/atompi/aliyunbot/pkg/utils"
@@ -29,7 +29,7 @@ func CreateTopicHandler(t options.TaskOptions) error {
 	for _, row := range *data {
 		wg.Add(1)
 		ch <- 1
-		go rocketmq.CreateTopic(ch, &wg, t, row["instanceId"], row["topicName"], row["messageType"], row["remark"])
+		go ons.CreateTopic(ch, &wg, t, row["instanceId"], row["topicName"], row["messageType"], row["remark"])
 	}
 
 	wg.Wait()
@@ -55,7 +55,7 @@ func CreateConsumerGroupHandler(t options.TaskOptions) error {
 	for _, row := range *data {
 		wg.Add(1)
 		ch <- 1
-		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["remark"])
+		go ons.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["remark"])
 	}
 
 	wg.Wait()

@@ -2,6 +2,7 @@ package handle
 
 import (
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/ecs"
+	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/ons"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/rocketmq"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle/slb"
 	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
@@ -26,6 +27,12 @@ func Handle(opts options.Options) {
 			err = slb.FetchSLBHandler(t)
 		case "RocketMQCreateTopic":
 			err = rocketmq.CreateTopicHandler(t)
+		case "RocketMQCreateConsumerGroup":
+			err = rocketmq.CreateConsumerGroupHandler(t)
+		case "OnsCreateTopic":
+			err = ons.CreateTopicHandler(t)
+		case "OnsCreateConsumerGroup":
+			err = ons.CreateConsumerGroupHandler(t)
 		default:
 			zap.S().Warnf("unknown task type: %v", t.Type)
 		}
