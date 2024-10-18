@@ -87,7 +87,7 @@ func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions,
 		mrt = 16
 	}
 
-	action := "UpdateConsumerGroup"
+	action := "CreateConsumerGroup"
 	pathName := "/instances/" + instanceId + "/consumerGroups/" + consumerGroupId
 	method := "POST"
 	body := map[string]interface{}{
