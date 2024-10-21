@@ -55,7 +55,7 @@ func CreateConsumerGroupHandler(t options.TaskOptions) error {
 	for _, row := range *data {
 		wg.Add(1)
 		ch <- 1
-		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["remark"])
+		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["deadLetterTargetTopic"], row["remark"])
 	}
 
 	wg.Wait()
@@ -81,7 +81,7 @@ func UpdateConsumerGroupHandler(t options.TaskOptions) error {
 	for _, row := range *data {
 		wg.Add(1)
 		ch <- 1
-		go rocketmq.UpdateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["remark"])
+		go rocketmq.UpdateConsumerGroup(ch, &wg, t, row["instanceId"], row["consumerGroupId"], row["deliveryOrderType"], row["consumeRetryPolicy"], row["maxRetryTimes"], row["deadLetterTargetTopic"], row["remark"])
 	}
 
 	wg.Wait()

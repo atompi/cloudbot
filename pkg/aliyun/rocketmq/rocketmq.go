@@ -78,7 +78,7 @@ func CreateTopic(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanc
 	}
 }
 
-func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, remark string) {
+func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, deadLetterTargetTopic string, remark string) {
 	defer func() { wg.Done(); <-ch }()
 
 	mrt, err := strconv.Atoi(maxRetryTimes)
@@ -93,8 +93,9 @@ func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions,
 	body := map[string]interface{}{
 		"deliveryOrderType": deliveryOrderType,
 		"consumeRetryPolicy": map[string]interface{}{
-			"retryPolicy":   consumeRetryPolicy,
-			"maxRetryTimes": mrt,
+			"retryPolicy":           consumeRetryPolicy,
+			"maxRetryTimes":         mrt,
+			"deadLetterTargetTopic": deadLetterTargetTopic,
 		},
 		"remark": remark,
 	}
@@ -106,7 +107,7 @@ func CreateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions,
 	}
 }
 
-func UpdateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, remark string) {
+func UpdateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, instanceId string, consumerGroupId string, deliveryOrderType string, consumeRetryPolicy string, maxRetryTimes string, deadLetterTargetTopic string, remark string) {
 	defer func() { wg.Done(); <-ch }()
 
 	mrt, err := strconv.Atoi(maxRetryTimes)
@@ -121,8 +122,9 @@ func UpdateConsumerGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions,
 	body := map[string]interface{}{
 		"deliveryOrderType": deliveryOrderType,
 		"consumeRetryPolicy": map[string]interface{}{
-			"retryPolicy":   consumeRetryPolicy,
-			"maxRetryTimes": mrt,
+			"retryPolicy":           consumeRetryPolicy,
+			"maxRetryTimes":         mrt,
+			"deadLetterTargetTopic": deadLetterTargetTopic,
 		},
 		"remark": remark,
 	}
