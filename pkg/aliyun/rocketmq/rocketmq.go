@@ -7,8 +7,8 @@ import (
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
-	"github.com/atompi/aliyunbot/pkg/utils"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/utils"
 	"go.uber.org/zap"
 )
 

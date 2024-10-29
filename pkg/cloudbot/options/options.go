@@ -28,6 +28,13 @@ type AliyunOptions struct {
 	Endpoint        string `yaml:"endpoint"`
 }
 
+type TencentOptions struct {
+	SecretId  string `yaml:"secret_id"`
+	SecretKey string `yaml:"secret_key"`
+	Region    string `yaml:"region"`
+	Endpoint  string `yaml:"endpoint"`
+}
+
 type InputOutputOptions struct {
 	Type   string `yaml:"type"`
 	Path   string `yaml:"path"`
@@ -40,6 +47,7 @@ type TaskOptions struct {
 	Type    string             `yaml:"type"`
 	Threads int                `yaml:"threads"`
 	Aliyun  AliyunOptions      `yaml:"aliyun"`
+	Tencent TencentOptions     `yaml:"tencent"`
 	Input   InputOutputOptions `yaml:"input"`
 	Output  InputOutputOptions `yaml:"output"`
 }

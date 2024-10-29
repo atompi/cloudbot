@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/handle"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
-	"github.com/atompi/aliyunbot/pkg/utils"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/utils"
 	logkit "github.com/atompi/go-kits/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -32,9 +32,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "aliyunbot",
-	Short:   "一个通过阿里云 OpenAPI 操作阿里云资源配置的 CLI 工具",
-	Long:    `通过阿里云 OpenAPI 操作阿里云资源配置。`,
+	Use:     "cloudbot",
+	Short:   "一个通过云服务商 OpenAPI 操作云服务商资源配置的 CLI 工具",
+	Long:    `通过云服务商 OpenAPI 操作云服务商资源配置。`,
 	Version: options.Version,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -73,7 +73,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./aliyunbot.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./cloudbot.yaml)")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -82,10 +82,10 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Search config in current directory with name "aliyunbot" (without extension).
+		// Search config in current directory with name "cloudbot" (without extension).
 		viper.AddConfigPath("./")
 		viper.SetConfigType("yaml")
-		viper.SetConfigName("aliyunbot")
+		viper.SetConfigName("cloudbot")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

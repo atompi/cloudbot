@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import cmd "github.com/atompi/aliyunbot/cmd/aliyunbot/app"
+import cmd "github.com/atompi/cloudbot/cmd/cloudbot/app"
 
 func main() {
 	cmd.Execute()

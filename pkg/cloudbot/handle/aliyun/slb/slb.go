@@ -2,8 +2,8 @@ package slb
 
 import (
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/aliyunbot/pkg/aliyun/slb"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
+	"github.com/atompi/cloudbot/pkg/aliyun/slb"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
 )
 
 func FetchSLBHandler(t options.TaskOptions) error {

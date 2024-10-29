@@ -4,9 +4,9 @@ import (
 	"sync"
 
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/aliyunbot/pkg/aliyun/ecs/securitygroup"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
-	"github.com/atompi/aliyunbot/pkg/dataio"
+	"github.com/atompi/cloudbot/pkg/aliyun/ecs/securitygroup"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/dataio"
 	"go.uber.org/zap"
 )
 

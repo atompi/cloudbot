@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
 	"go.uber.org/zap"
 )
 

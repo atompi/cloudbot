@@ -8,9 +8,9 @@ import (
 	openapiutil "github.com/alibabacloud-go/openapi-util/service"
 	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
-	"github.com/atompi/aliyunbot/pkg/dataio"
-	"github.com/atompi/aliyunbot/pkg/utils"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/dataio"
+	"github.com/atompi/cloudbot/pkg/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
 )

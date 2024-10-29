@@ -1,7 +1,7 @@
 core:
   log:
     level: info
-    path: ./logs/aliyunbot
+    path: ./logs/cloudbot
     maxsize: 100
     maxage: 7
     compress: true
@@ -9,7 +9,7 @@ core:
 tasks:
   - name: aliyun_revoke_security_group
     enabled: false
-    type: RevokeSecurityGroup
+    type: aliyun_RevokeSecurityGroup
     threads: 5
     aliyun:
       access_key_id: your_access_key_id
@@ -21,8 +21,8 @@ tasks:
       path: ./data
       target: rules.csv
   - name: aliyun_fetch_slb
-    enabled: true
-    type: DescribeLoadBalancers
+    enabled: false
+    type: aliyun_DescribeLoadBalancers
     threads: 5
     aliyun:
       access_key_id: your_access_key_id
@@ -33,3 +33,16 @@ tasks:
       type: mysql
       path: root:123456@tcp(127.0.0.1:3306)/aliyun?charset=utf8mb4
       target: slb
+  - name: tencent_fetch_resource
+    enabled: true
+    type: tencent_DescribeInstances
+    threads: 5
+    tencent:
+      secret_id: your_secret_id
+      secret_key: your_secret_key
+      region: ap-guangzhou
+      endpoint: cvm.tencentcloudapi.com
+    output:
+      type: mysql
+      path: root:123456@tcp(127.0.0.1:3306)/tencent?charset=utf8mb4
+      target: cvm

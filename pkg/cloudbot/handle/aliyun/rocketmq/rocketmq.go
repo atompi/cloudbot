@@ -3,10 +3,10 @@ package rocketmq
 import (
 	"sync"
 
-	"github.com/atompi/aliyunbot/pkg/aliyun/rocketmq"
-	"github.com/atompi/aliyunbot/pkg/aliyunbot/options"
-	"github.com/atompi/aliyunbot/pkg/dataio"
-	"github.com/atompi/aliyunbot/pkg/utils"
+	"github.com/atompi/cloudbot/pkg/aliyun/rocketmq"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/dataio"
+	"github.com/atompi/cloudbot/pkg/utils"
 	"go.uber.org/zap"
 )
 
