@@ -13,7 +13,7 @@ import (
 )
 
 func createApiClient(opts options.AliyunOptions) (*openapi.Client, error) {
-	config := utils.CreateClientConfig(
+	config := utils.AliyunCreateClientConfig(
 		tea.String(opts.AccessKeyId),
 		tea.String(opts.AccessKeySecret),
 		tea.String(opts.RegionId),
