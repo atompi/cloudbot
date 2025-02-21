@@ -33,15 +33,19 @@ tasks:
       type: mysql
       path: root:123456@tcp(127.0.0.1:3306)/aliyun?charset=utf8mb4
       target: slb
-  - name: tencent_fetch_resource
+  - name: tencent_GetMonitorData
     enabled: true
-    type: tencent_DescribeInstances
+    type: tencent_GetMonitorData
     threads: 5
     tencent:
       secret_id: your_secret_id
       secret_key: your_secret_key
       region: ap-guangzhou
-      endpoint: cvm.tencentcloudapi.com
+      endpoint: monitor.tencentcloudapi.com
+    input:
+      type: csv
+      path: ./data
+      target: instance_list.csv
     output:
       type: mysql
       path: root:123456@tcp(127.0.0.1:3306)/tencent?charset=utf8mb4
