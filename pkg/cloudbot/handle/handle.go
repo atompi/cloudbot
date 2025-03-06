@@ -5,6 +5,7 @@ import (
 	aliyunons "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/ons"
 	aliyunrocketmq "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/rocketmq"
 	aliyunslb "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/slb"
+	tencentcam "github.com/atompi/cloudbot/pkg/cloudbot/handle/tencent/cam"
 	tencentmonitor "github.com/atompi/cloudbot/pkg/cloudbot/handle/tencent/monitor"
 	"github.com/atompi/cloudbot/pkg/cloudbot/options"
 	"go.uber.org/zap"
@@ -38,6 +39,8 @@ func Handle(opts options.Options) {
 			err = aliyunons.CreateConsumerGroupHandler(t)
 		case "tencent_GetMonitorData":
 			err = tencentmonitor.GetMonitorDataHandler(t)
+		case "tencent_GetCAMUsers":
+			err = tencentcam.GetCAMUsers(t)
 		default:
 			zap.S().Warnf("unknown task type: %v", t.Type)
 		}
