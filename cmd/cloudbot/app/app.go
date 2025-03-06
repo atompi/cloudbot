@@ -22,7 +22,7 @@ import (
 	"github.com/atompi/cloudbot/pkg/cloudbot/handle"
 	"github.com/atompi/cloudbot/pkg/cloudbot/options"
 	"github.com/atompi/cloudbot/pkg/utils"
-	logkit "github.com/atompi/go-kits/log"
+	_logkit "github.com/atompi/kit-go/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -39,14 +39,19 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-		opts := options.NewOptions()
+		opts := options.New()
 
-		level := opts.Core.Log.Level
-		path := opts.Core.Log.Path
-		maxSize := opts.Core.Log.MaxSize
-		maxAge := opts.Core.Log.MaxAge
-		compress := opts.Core.Log.Compress
-		logger := logkit.InitLogger(level, path, maxSize, maxAge, compress)
+		logOpts := _logkit.NewLoggerOptions(
+			_logkit.WithLevel(opts.Core.Log.Level),
+			_logkit.WithFormat(opts.Core.Log.Format),
+			_logkit.WithPath(opts.Core.Log.Path),
+			_logkit.WithMaxAge(opts.Core.Log.MaxAge),
+			_logkit.WithMaxSize(opts.Core.Log.MaxSize),
+			_logkit.WithMaxBackups(opts.Core.Log.MaxBackups),
+			_logkit.WithCompress(opts.Core.Log.Compress),
+			_logkit.WithMultiFiles(opts.Core.Log.MultiFiles),
+		)
+		logger := _logkit.NewZapLogger(logOpts)
 		defer logger.Sync()
 		undo := zap.ReplaceGlobals(logger)
 		defer undo()
