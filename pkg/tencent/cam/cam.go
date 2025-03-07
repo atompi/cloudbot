@@ -3,6 +3,7 @@ package cam
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/atompi/cloudbot/pkg/cloudbot/options"
 	"github.com/atompi/cloudbot/pkg/utils"
@@ -48,6 +49,7 @@ func ListUsers(t options.TaskOptions) (err error) {
 	resp, _ := result["Response"].(map[string]interface{})
 	users, _ := resp["Data"].([]interface{})
 	for _, user := range users {
+		time.Sleep(500 * time.Millisecond)
 		user, _ := user.(map[string]interface{})
 		nickName, _ := user["NickName"].(string)
 		name, _ := user["Name"].(string)
@@ -89,7 +91,7 @@ func ListUsers(t options.TaskOptions) (err error) {
 			policyName, _ := policy["PolicyName"].(string)
 			description, _ := policy["Description"].(string)
 			deactived, _ := policy["Deactived"].(bool)
-			fmt.Println(name, nickName, remark, consoleLogin, policyName, description, deactived)
+			fmt.Printf("%v,%v,%v,%v,%v,%v,%v\n", name, nickName, remark, consoleLogin, policyName, description, deactived)
 		}
 	}
 	return
