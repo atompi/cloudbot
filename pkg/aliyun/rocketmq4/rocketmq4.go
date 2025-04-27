@@ -6,12 +6,12 @@ import (
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/utils"
 	"go.uber.org/zap"
 )
 
-func createApiClient(opts options.AliyunOptions) (*openapi.Client, error) {
+func createApiClient(opts options.CloudProviderOptions) (*openapi.Client, error) {
 	config := utils.AliyunCreateClientConfig(
 		tea.String(opts.AccessKeyId),
 		tea.String(opts.AccessKeySecret),
@@ -37,7 +37,7 @@ func createApiInfo(action string, pathName string, method string) *openapi.Param
 }
 
 func callApi(t options.TaskOptions, action string, pathName string, method string, body map[string]interface{}) error {
-	c, err := createApiClient(t.Aliyun)
+	c, err := createApiClient(t.CloudProvider)
 	if err != nil {
 		zap.S().Errorf("create api client failed: %v", err)
 		return err

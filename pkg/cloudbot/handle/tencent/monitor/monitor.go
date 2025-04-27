@@ -3,7 +3,7 @@ package monitor
 import (
 	"encoding/json"
 
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/dataio"
 	"github.com/atompi/cloudbot/pkg/tencent/monitor"
 	"github.com/atompi/cloudbot/pkg/utils"

@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	rocketmq "github.com/atompi/cloudbot/pkg/aliyun/rocketmq4"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/dataio"
 	"github.com/atompi/cloudbot/pkg/utils"
 	"go.uber.org/zap"

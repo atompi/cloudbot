@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"go.uber.org/zap"
 )
 

@@ -6,14 +6,66 @@ import (
 	aliyunrocketmq4 "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/rocketmq4"
 	aliyunslb "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/slb"
 	aliyuntag "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/tag"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	tencentcam "github.com/atompi/cloudbot/pkg/cloudbot/handle/tencent/cam"
 	tencentmonitor "github.com/atompi/cloudbot/pkg/cloudbot/handle/tencent/monitor"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/utils"
+	"github.com/xuri/excelize/v2"
 	"go.uber.org/zap"
 )
 
-func Handle(opts options.Options) {
-	for _, t := range opts.Tasks {
+func LoadTasks(xlsxFile, TasksXlsxSheet string) *[]options.TaskOptions {
+	f, err := excelize.OpenFile(xlsxFile)
+	if err != nil {
+		zap.S().Errorf("open xlsx failed: %v", err)
+		return nil
+	}
+	defer f.Close()
+
+	rows, err := f.GetRows(TasksXlsxSheet)
+	if err != nil {
+		zap.S().Errorf("read xlsx failed: %v", err)
+		return nil
+	}
+
+	data, err := utils.XlsxDataToMap(&rows)
+	if err != nil {
+		zap.S().Errorf("convert xlsx data failed: %v", err)
+		return nil
+	}
+
+	tasks := []options.TaskOptions{}
+	for _, r := range *data {
+		t := options.TaskOptions{
+			Name:    r["name"],
+			Enabled: utils.StringToBool(r["enabled"]),
+			Type:    r["type"],
+			Threads: utils.StringToInt(r["threads"]),
+			CloudProvider: options.CloudProviderOptions{
+				AccessKeyId:     r["access_key_id"],
+				AccessKeySecret: r["access_key_secret"],
+				Endpoint:        r["endpoint"],
+				RegionId:        r["region_id"],
+			},
+			Input: options.InputOutputOptions{
+				Path:   r["input.path"],
+				Type:   r["input.type"],
+				Target: r["input.target"],
+			},
+			Output: options.InputOutputOptions{
+				Path:   r["output.path"],
+				Type:   r["output.type"],
+				Target: r["output.target"],
+			},
+		}
+		tasks = append(tasks, t)
+	}
+
+	return &tasks
+}
+
+func Handle(tasks *[]options.TaskOptions) {
+	for _, t := range *tasks {
 		if !t.Enabled {
 			zap.S().Infof("task: %v disabled", t.Name)
 			continue

@@ -1,7 +1,7 @@
 package cam
 
 import (
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/tencent/cam"
 )
 

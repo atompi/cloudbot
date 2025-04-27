@@ -5,7 +5,7 @@ import (
 
 	"github.com/alibabacloud-go/tea/tea"
 	"github.com/atompi/cloudbot/pkg/aliyun/ecs/securitygroup"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/dataio"
 	"go.uber.org/zap"
 )
@@ -21,7 +21,7 @@ func RevokeSecurityGroupHandler(t options.TaskOptions) error {
 	ch := make(chan int, t.Threads)
 
 	q := map[string]interface{}{}
-	q["RegionId"] = tea.String(t.Aliyun.RegionId)
+	q["RegionId"] = tea.String(t.CloudProvider.RegionId)
 	for _, row := range res {
 		q["SecurityGroupRuleId.1"] = tea.String(row[0])
 		q["SecurityGroupId"] = tea.String(row[1])

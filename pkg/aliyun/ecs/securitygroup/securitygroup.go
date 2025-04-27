@@ -7,12 +7,12 @@ import (
 	openapiutil "github.com/alibabacloud-go/openapi-util/service"
 	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/utils"
 	"go.uber.org/zap"
 )
 
-func createApiClient(opts options.AliyunOptions) (*openapi.Client, error) {
+func createApiClient(opts options.CloudProviderOptions) (*openapi.Client, error) {
 	config := utils.AliyunCreateClientConfig(
 		tea.String(opts.AccessKeyId),
 		tea.String(opts.AccessKeySecret),
@@ -37,7 +37,7 @@ func createApiInfo() *openapi.Params {
 	}
 }
 
-func callApi(a options.AliyunOptions, queries map[string]interface{}) error {
+func callApi(a options.CloudProviderOptions, queries map[string]interface{}) error {
 	c, err := createApiClient(a)
 	if err != nil {
 		return err
@@ -60,7 +60,7 @@ func callApi(a options.AliyunOptions, queries map[string]interface{}) error {
 func RevokeSecurityGroup(ch chan int, wg *sync.WaitGroup, t options.TaskOptions, queries map[string]interface{}) {
 	defer func() { wg.Done(); <-ch }()
 
-	err := callApi(t.Aliyun, queries)
+	err := callApi(t.CloudProvider, queries)
 	if err != nil {
 		zap.S().Errorf("call api failed: %v", err)
 		return

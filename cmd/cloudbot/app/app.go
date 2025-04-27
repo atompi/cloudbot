@@ -58,7 +58,8 @@ var rootCmd = &cobra.Command{
 
 		go utils.GracefulExit()
 
-		handle.Handle(opts)
+		tasks := handle.LoadTasks(opts.Core.TasksXlsxFile, opts.Core.TasksXlsxSheet)
+		handle.Handle(tasks)
 	},
 }
 

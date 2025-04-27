@@ -4,21 +4,21 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/utils"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	tchttp "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http"
 	"go.uber.org/zap"
 )
 
-func createApiClient(opts options.TencentOptions, method string, region string) *common.Client {
-	credential, cpf := utils.TencentCreateClientConfig(opts.SecretId, opts.SecretKey, opts.Endpoint)
+func createApiClient(opts options.CloudProviderOptions, method string, region string) *common.Client {
+	credential, cpf := utils.TencentCreateClientConfig(opts.AccessKeyId, opts.AccessKeySecret, opts.Endpoint)
 	cpf.HttpProfile.ReqMethod = method
 	return common.NewCommonClient(credential, region, cpf)
 }
 
 func GetMonitorData(t options.TaskOptions, params string, instanceId string) {
-	client := createApiClient(t.Tencent, "POST", t.Tencent.Region)
+	client := createApiClient(t.CloudProvider, "POST", t.CloudProvider.RegionId)
 	request := tchttp.NewCommonRequest("monitor", "2018-07-24", "GetMonitorData")
 
 	err := request.SetActionParameters(params)

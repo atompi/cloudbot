@@ -8,14 +8,14 @@ import (
 	openapiutil "github.com/alibabacloud-go/openapi-util/service"
 	teautil "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/dataio"
 	"github.com/atompi/cloudbot/pkg/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"go.uber.org/zap"
 )
 
-func createApiClient(opts options.AliyunOptions) (*openapi.Client, error) {
+func createApiClient(opts options.CloudProviderOptions) (*openapi.Client, error) {
 	config := utils.AliyunCreateClientConfig(
 		tea.String(opts.AccessKeyId),
 		tea.String(opts.AccessKeySecret),
@@ -136,7 +136,7 @@ func describeSLB(c *openapi.Client, queries map[string]interface{}) (map[string]
 }
 
 func FetchSLB(t options.TaskOptions, queries map[string]interface{}) error {
-	c, err := createApiClient(t.Aliyun)
+	c, err := createApiClient(t.CloudProvider)
 	if err != nil {
 		zap.S().Errorf("create api client failed: %v", err)
 		return err

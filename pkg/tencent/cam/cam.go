@@ -5,21 +5,21 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/cloudbot/handle/options"
 	"github.com/atompi/cloudbot/pkg/utils"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	tchttp "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/http"
 	"go.uber.org/zap"
 )
 
-func createApiClient(opts options.TencentOptions, method string, region string) *common.Client {
-	credential, cpf := utils.TencentCreateClientConfig(opts.SecretId, opts.SecretKey, opts.Endpoint)
+func createApiClient(opts options.CloudProviderOptions, method string, region string) *common.Client {
+	credential, cpf := utils.TencentCreateClientConfig(opts.AccessKeyId, opts.AccessKeySecret, opts.Endpoint)
 	cpf.HttpProfile.ReqMethod = method
 	return common.NewCommonClient(credential, region, cpf)
 }
 
 func ListUsers(t options.TaskOptions) (err error) {
-	client := createApiClient(t.Tencent, "POST", t.Tencent.Region)
+	client := createApiClient(t.CloudProvider, "POST", t.CloudProvider.RegionId)
 	request := tchttp.NewCommonRequest("cam", "2019-01-16", "ListUsers")
 	params := "{}"
 
