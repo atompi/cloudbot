@@ -4,6 +4,7 @@ import (
 	aliyunecs "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/ecs"
 	aliyunons "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/ons"
 	aliyunrocketmq "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/rocketmq"
+	aliyunrocketmq4 "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/rocketmq4"
 	aliyunslb "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/slb"
 	aliyuntag "github.com/atompi/cloudbot/pkg/cloudbot/handle/aliyun/tag"
 	tencentcam "github.com/atompi/cloudbot/pkg/cloudbot/handle/tencent/cam"
@@ -34,6 +35,10 @@ func Handle(opts options.Options) {
 			err = aliyunrocketmq.CreateConsumerGroupHandler(t)
 		case "aliyun_RocketMQUpdateConsumerGroup":
 			err = aliyunrocketmq.UpdateConsumerGroupHandler(t)
+		case "aliyun_RocketMQ4CreateTopic":
+			err = aliyunrocketmq4.CreateTopicHandler(t)
+		case "aliyun_RocketMQ4CreateConsumerGroup":
+			err = aliyunrocketmq4.CreateConsumerGroupHandler(t)
 		case "aliyun_OnsCreateTopic":
 			err = aliyunons.CreateTopicHandler(t)
 		case "aliyun_OnsCreateConsumerGroup":

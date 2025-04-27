@@ -1,0 +1,63 @@
+package rocketmq4
+
+import (
+	"sync"
+
+	rocketmq "github.com/atompi/cloudbot/pkg/aliyun/rocketmq4"
+	"github.com/atompi/cloudbot/pkg/cloudbot/options"
+	"github.com/atompi/cloudbot/pkg/dataio"
+	"github.com/atompi/cloudbot/pkg/utils"
+	"go.uber.org/zap"
+)
+
+func CreateTopicHandler(t options.TaskOptions) error {
+	res, err := dataio.InputCSV(t.Input)
+	if err != nil {
+		zap.S().Errorf("input error: %v", err)
+		return err
+	}
+
+	data, err := utils.DataToMap(&res)
+	if err != nil {
+		zap.S().Errorf("data convert error: %v", err)
+		return err
+	}
+
+	wg := sync.WaitGroup{}
+	ch := make(chan int, t.Threads)
+
+	for _, row := range *data {
+		wg.Add(1)
+		ch <- 1
+		go rocketmq.CreateTopic(ch, &wg, t, row["InstanceId"], row["Topic"], row["MessageType"], row["Remark"])
+	}
+
+	wg.Wait()
+	return nil
+}
+
+func CreateConsumerGroupHandler(t options.TaskOptions) error {
+	res, err := dataio.InputCSV(t.Input)
+	if err != nil {
+		zap.S().Errorf("input error: %v", err)
+		return err
+	}
+
+	data, err := utils.DataToMap(&res)
+	if err != nil {
+		zap.S().Errorf("data convert error: %v", err)
+		return err
+	}
+
+	wg := sync.WaitGroup{}
+	ch := make(chan int, t.Threads)
+
+	for _, row := range *data {
+		wg.Add(1)
+		ch <- 1
+		go rocketmq.CreateConsumerGroup(ch, &wg, t, row["InstanceId"], row["GroupId"], row["GroupType"], row["Remark"])
+	}
+
+	wg.Wait()
+	return nil
+}
