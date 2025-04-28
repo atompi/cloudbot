@@ -14,7 +14,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func LoadTasks(xlsxFile, TasksXlsxSheet string) *[]options.TaskOptions {
+func LoadTasks(xlsxFile, tasksXlsxSheet string) *[]options.TaskOptions {
 	f, err := excelize.OpenFile(xlsxFile)
 	if err != nil {
 		zap.S().Errorf("open xlsx failed: %v", err)
@@ -22,13 +22,13 @@ func LoadTasks(xlsxFile, TasksXlsxSheet string) *[]options.TaskOptions {
 	}
 	defer f.Close()
 
-	rows, err := f.GetRows(TasksXlsxSheet)
+	rows, err := utils.GetXlsxRows(f, tasksXlsxSheet)
 	if err != nil {
 		zap.S().Errorf("read xlsx failed: %v", err)
 		return nil
 	}
 
-	data, err := utils.XlsxDataToMap(&rows)
+	data, err := utils.XlsxDataToMap(rows)
 	if err != nil {
 		zap.S().Errorf("convert xlsx data failed: %v", err)
 		return nil
